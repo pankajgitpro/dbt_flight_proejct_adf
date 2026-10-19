@@ -1,0 +1,15 @@
+{
+	"name": "adf-factory-project12wer",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8eefd2f9-ddac-40f2-9e24-b48860a7cac7",
+		"tenantId": "f7cf55f2-a3d9-48bd-b895-dd8a37cd60e7"
+	}
+}
