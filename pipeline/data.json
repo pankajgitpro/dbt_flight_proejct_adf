@@ -1,0 +1,115 @@
+{
+	"name": "data",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.array",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DelimitedText1",
+									"type": "DatasetReference",
+									"parameters": {
+										"relative_url": {
+											"value": "@item().relative_url\n",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Parquet1",
+									"type": "DatasetReference",
+									"parameters": {
+										"container": "bronze",
+										"folder": "data_initial_load",
+										"file": {
+											"value": "@item().file_name",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"array": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"relative_url": "anshlambagit/AnshLambaYoutube/refs/heads/main/Databricks%20End%20To%20End%20Project/dim_airports.csv",
+						"file_name": "dim_airports"
+					},
+					{
+						"relative_url": "anshlambagit/AnshLambaYoutube/refs/heads/main/Databricks%20End%20To%20End%20Project/dim_flights.csv",
+						"file_name": "dim_flights"
+					},
+					{
+						"relative_url": "anshlambagit/AnshLambaYoutube/refs/heads/main/Databricks%20End%20To%20End%20Project/dim_passengers.csv",
+						"file_name": "dim_passengers"
+					},
+					{
+						"relative_url": "anshlambagit/AnshLambaYoutube/refs/heads/main/Databricks%20End%20To%20End%20Project/fact_bookings.csv",
+						"file_name": "fact_bookings"
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}
